@@ -1,28 +1,16 @@
 from django.shortcuts import render
 from datetime import datetime
+from .models import ProductCategory, Product
+from django.conf import settings
 
 
 def main(request):
     title = 'главная'
-    products = [
-        {
-            'name': 'Отличный стул',
-            'disc': 'Расположитесь комфортно.',
-            'img_src': 'product-1.jpg',
-            'img_href': '/product/1/',
-            'img_alt': 'продукт 1'
-        },
-        {
-            'name': 'Стул повышенного качества',
-            'disc': 'Не оторваться.',
-            'img_src': 'product-2.jpg',
-            'img_href': '/product/2/',
-            'img_alt': 'продукт 2'
-        }
-    ]
+    products = Product.objects.all() 
     content = {
         'title': title,
-        'products': products
+        'products': products,
+        'media_url': settings.MEDIA_URL
     }
 
     return render(request, "mainapp/index.html", content)
@@ -30,37 +18,13 @@ def main(request):
 
 def products(request):
     title = 'продукты'
-    links_menu = [
-        {"href": "products_all", "name": "все"},
-        {"href": "products_home", "name": "дом"},
-        {"href": "products_office", "name": "офис"},
-        {"href": "products_modern", "name": "модерн"},
-        {"href": "products_classic", "name": "классика"},
-    ]
-    same_products = [
-        {
-            "name": "Отличный стул",
-            "desc": "Не оторваться.",
-            "image_src": "product-11.jpg",
-            "alt": "продукт 11"
-        },
-        {
-            "name": "Стул повышенного качества",
-            "desc": "Комфортно.",
-            "image_src": "product-21.jpg",
-            "alt": "продукт 21"
-        },
-        {
-            "name": "Стул премиального качества",
-            "desc": "Просто попробуйте.",
-            "image_src": "product-31.jpg",
-            "alt": "продукт 31"
-        }
-    ]
+    links_menu = ProductCategory.objects.all()
+    same_products = Product.objects.all()
     content = {
         'title': title,
         'links_menu': links_menu,
-        'same_products': same_products
+        'same_products': same_products,
+        'media_url': settings.MEDIA_URL
     }
 
     return render(request, "mainapp/products.html", content)
