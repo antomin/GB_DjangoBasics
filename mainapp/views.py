@@ -3,6 +3,8 @@ from datetime import datetime
 from django.conf import settings
 from django.shortcuts import get_object_or_404, render
 
+from basketapp.models import Basket
+
 from .models import Contact, Product, ProductCategory
 
 
@@ -18,6 +20,10 @@ def products(request, pk=None):
     title = "продукты"
     links_menu = ProductCategory.objects.all()
 
+    basket = []
+    if request.user.is_authenticated:
+        basket = Basket.objects.filter(user=request.user) 
+
     if pk is not None:
         if pk == 0:
             category = {'name': 'все'}
@@ -30,7 +36,8 @@ def products(request, pk=None):
             'links_menu': links_menu,
             'category': category,
             'products': products,
-            'media_url': settings.MEDIA_URL
+            'media_url': settings.MEDIA_URL,
+            'basket': basket
         }
         return render(request, 'mainapp/products_list.html', content)
 
@@ -40,6 +47,7 @@ def products(request, pk=None):
         "links_menu": links_menu,
         "same_products": same_products,
         "media_url": settings.MEDIA_URL,
+        'basket': basket
     }
 
     if pk:
