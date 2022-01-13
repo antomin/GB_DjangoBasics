@@ -127,7 +127,6 @@ def forwards_func(apps, schema_editor):
         quantity=8,
     )
 
-
     con_model.objects.create(
         pk=1, phone="+7-888-888-8888", email="info@geekshop.ru", city="Москва", address="В пределах МКАД"
     )
