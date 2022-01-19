@@ -1,4 +1,5 @@
 from django.conf import settings
+from django.contrib.auth.decorators import user_passes_test
 from django.shortcuts import get_object_or_404, redirect, render
 
 from authapp.models import ShopUser
@@ -10,6 +11,7 @@ def admin_main(request):
     return response
 
 
+@user_passes_test(lambda u: u.is_superuser)
 def users(request):
     title = "админка/пользователи"
     users_list = ShopUser.objects.all().order_by("-is_active", "-is_superuser", "-is_staff", "username")
@@ -32,6 +34,7 @@ def user_delete(request, pk):
     return response
 
 
+@user_passes_test(lambda u: u.is_superuser)
 def categories(request):
     title = "админка/категории"
     categories_list = ProductCategory.objects.all()
@@ -54,6 +57,7 @@ def category_delete(request, pk):
     return response
 
 
+@user_passes_test(lambda u: u.is_superuser)
 def products(request, pk):
     title = "админка/продукт"
     category = get_object_or_404(ProductCategory, pk=pk)
