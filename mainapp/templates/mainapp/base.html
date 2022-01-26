@@ -2,6 +2,7 @@
 
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset="utf-8">
     <title>
@@ -12,13 +13,14 @@
 
     {% block css %}
     <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}">
-    <link rel="stylesheet" href="{% static 'fonts/font-awesome/css/font-awesome.css' %}">
+    <link rel="stylesheet" href="{% static 'css/all.min.css' %}">
     {% endblock css %}
 
     {% block js %}
     {% endblock js %}
 
 </head>
+
 <body>
     <div class="container">
 
@@ -26,8 +28,8 @@
         {% endblock menu %}
 
         <div class="content">
-        {% block content %}
-        {% endblock content %}
+            {% block content %}
+            {% endblock content %}
         </div>
 
     </div>
@@ -50,7 +52,7 @@
                 </form>
             </div>
         </div>
-        <p class="small">&copy; GB 2017</p>
+        <p class="small">&copy; Anton Mindlin {% now "Y" %}</p>
         <div class="social">
             <a href="#" class="social1"></a>
             <a href="#" class="social2"></a>
@@ -59,7 +61,8 @@
         </div>
         <p class="small">Положения &amp; Условия / Конфиденциальность &amp; Cookies</p>
     </div>
-    {% endblock footer%}
+    {% endblock footer %}
 
 </body>
+
 </html>
