@@ -1,12 +1,12 @@
-from django.urls import path
+from django.urls import re_path
 
 import authapp.views as authapp
 
 app_name = "authapp"
 
 urlpatterns = [
-    path("login/", authapp.login, name="login"),
-    path("logout/", authapp.logout, name="logout"),
-    path("edit/", authapp.edit, name="edit"),
-    path("register/", authapp.register, name="register"),
+    re_path(r"^login/$", authapp.login, name="login"),
+    re_path(r"^logout/$", authapp.logout, name="logout"),
+    re_path(r"^edit/$", authapp.edit, name="edit"),
+    re_path(r"^register/$", authapp.register, name="register"),
 ]
