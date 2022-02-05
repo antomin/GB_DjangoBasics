@@ -27,7 +27,7 @@ def reverse_func(apps, schema_editor):
 class Migration(migrations.Migration):
 
     dependencies = [
-        ("authapp", "0005_user_profile"),
+        ("authapp", "0006_alter_shopuser_activation_key_expires"),
     ]
 
     operations = [migrations.RunPython(forwards_func, reverse_func)]
