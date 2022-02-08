@@ -122,6 +122,20 @@ def order_forming_complete(request, pk):
     return HttpResponseRedirect(reverse("ordersapp:orders_list"))
 
 
+from django.http import JsonResponse
+
+from mainapp.models import Product
+
+
+def get_product_price(request, pk):
+    if request.is_ajax():
+        product = Product.objects.filter(pk=int(pk)).first()
+        if product:
+            return JsonResponse({"price": product.price})
+        else:
+            return JsonResponse({"price": 0})
+
+
 @receiver(pre_save, sender=OrderItem)
 @receiver(pre_save, sender=Basket)
 def product_quantity_update_save(instance, sender, **kwargs):

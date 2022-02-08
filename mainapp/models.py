@@ -22,7 +22,11 @@ class Product(models.Model):
     is_active = models.BooleanField(verbose_name="продукт активен", default=True)
 
     def __str__(self) -> str:
-        return f"{self.name} {self.category.name}"
+        return f"{self.name} ({self.category.name})"
+
+    @staticmethod
+    def get_items():
+        return Product.objects.filter(category__is_active=True).order_by("category", "name")
 
 
 class Contact(models.Model):
