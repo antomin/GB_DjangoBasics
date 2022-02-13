@@ -1,9 +1,6 @@
-from itertools import product
-from tabnanny import verbose
-
 from django.conf import settings
 from django.db import models
-from pyexpat import model
+from django.shortcuts import get_object_or_404
 
 from mainapp.models import Product
 
@@ -24,12 +21,11 @@ class Order(models.Model):
         (READY, "готов к выдаче"),
         (CANCEL, "отменен"),
     )
-
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     created = models.DateTimeField(verbose_name="создан", auto_now_add=True)
-    updated = models.DateTimeField(verbose_name="обновлён", auto_now=True)
+    updated = models.DateTimeField(verbose_name="обновлен", auto_now=True)
     status = models.CharField(verbose_name="статус", max_length=3, choices=ORDER_STATUS_CHOICES, default=FORMING)
-    is_activ = models.BooleanField(verbose_name="активен", default=True)
+    is_active = models.BooleanField(verbose_name="активен", default=True)
 
     class Meta:
         ordering = ("-created",)
@@ -37,7 +33,7 @@ class Order(models.Model):
         verbose_name_plural = "заказы"
 
     def __str__(self):
-        return f"Текущий заказ: {self.id}"
+        return "Текущий заказ: {}".format(self.id)
 
     def get_total_quantity(self):
         items = self.orderitems.select_related()
@@ -56,7 +52,7 @@ class Order(models.Model):
             item.product.quantity += item.quantity
             item.product.save()
 
-        self.is_activ = False
+        self.is_active = False
         self.save()
 
 
@@ -67,3 +63,7 @@ class OrderItem(models.Model):
 
     def get_product_cost(self):
         return self.product.price * self.quantity
+
+    @staticmethod
+    def get_item(pk):
+        return get_object_or_404(OrderItem, pk=pk)

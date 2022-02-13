@@ -1,5 +1,6 @@
 from django.conf import settings
 from django.db import models
+from django.shortcuts import get_object_or_404
 
 from mainapp.models import Product
 
@@ -12,16 +13,19 @@ class Basket(models.Model):
 
     @property
     def product_cost(self):
+        "return cost of all products this type"
         return self.product.price * self.quantity
 
     @property
     def total_quantity(self):
+        "return total quantity for user"
         _items = Basket.objects.filter(user=self.user)
         _totalquantity = sum(list(map(lambda x: x.quantity, _items)))
         return _totalquantity
 
     @property
     def total_cost(self):
+        "return total cost for user"
         _items = Basket.objects.filter(user=self.user)
         _totalcost = sum(list(map(lambda x: x.product_cost, _items)))
         return _totalcost
@@ -29,3 +33,7 @@ class Basket(models.Model):
     @staticmethod
     def get_items(user):
         return Basket.objects.filter(user=user).order_by("product__category")
+
+    @staticmethod
+    def get_item(pk):
+        return get_object_or_404(Basket, pk=pk)

@@ -8,7 +8,7 @@
     <title>
         {% block title %}
         {{ "Кабинет заказов"|title }}
-        {% endblock title %}
+        {% endblock %}
     </title>
 
     {% block css %}
@@ -21,11 +21,12 @@
 <body>
     <div class="container">
         {% block content %}
-        {% endblock content %}
+        {% endblock %}
     </div>
 </body>
 
 {% block js %}
+<!-- Bootstrap section -->
 <script src="{% static 'js/jquery-3.5.1.min.js' %}"></script>
 <script src="{% static 'js/popper.min.js' %}"></script>
 <script src="{% static 'js/bootstrap.min.js' %}"></script>
@@ -36,6 +37,9 @@
         $('[data-toggle="tooltip"]').tooltip()
     })
 </script>
+<!-- jQuery formset section -->
+<script src="{% static 'js/jquery.formset.js' %}"></script>
+<!-- GeekShop section -->
 <script src="{% static 'js/orders_scripts.js' %}"></script>
 {% endblock js %}
 
