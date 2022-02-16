@@ -6,8 +6,7 @@ from django.db import transaction
 from django.shortcuts import HttpResponseRedirect, render
 from django.urls import reverse
 
-from authapp.forms import (ShopUserEditForm, ShopUserLoginForm,
-                           ShopUserProfileEditForm, ShopUserRegisterForm)
+from authapp.forms import ShopUserEditForm, ShopUserLoginForm, ShopUserProfileEditForm, ShopUserRegisterForm
 from authapp.models import ShopUser
 
 
