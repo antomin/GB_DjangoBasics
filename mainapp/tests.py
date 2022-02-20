@@ -59,4 +59,3 @@ class ProductsTestCase(TestCase):
         products = set([product_1, product_3])
 
         self.assertIsNotNone(products_as_class_method.intersection(products))
-        
