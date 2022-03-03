@@ -9,9 +9,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = (
-    "django-insecure-b4k$k+o58ifyisctjat@q@^e7j5te+(t8#x8+%_m&$l)=p^uqm"
-)
+SECRET_KEY = "django-insecure-b4k$k+o58ifyisctjat@q@^e7j5te+(t8#x8+%_m&$l)=p^uqm"
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False if os.getenv("DJANGO_PRODUCTION", default=None) else True
@@ -39,14 +37,16 @@ INSTALLED_APPS = [
 AUTH_USER_MODEL = "authapp.ShopUser"
 
 MIDDLEWARE = [
+    # "django.middleware.cache.UpdateCacheMiddleware",  # for entire site caching
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
-    # "django.middleware.csrf.CsrfViewMiddleware",
+    "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "social_django.middleware.SocialAuthExceptionMiddleware",
+    # "django.middleware.cache.FetchFromCacheMiddleware",  # for entire site caching
 ]
 
 ROOT_URLCONF = "geekshop.urls"
@@ -177,9 +177,7 @@ AUTHENTICATION_BACKENDS = (
 
 import json
 
-with open(
-    os.path.join(BASE_DIR, "tmp", "secrets", "github.json"), "r"
-) as secrets:
+with open(os.path.join(BASE_DIR, "tmp", "secrets", "github.json"), "r") as secrets:
     github_auth = json.load(secrets)
 
 SOCIAL_AUTH_GITHUB_KEY = github_auth["client_id"]
@@ -231,3 +229,18 @@ if DEBUG:
         "template_profiler_panel.panels.template.TemplateProfilerPanel",
     ]
 # <--- Django Debug Toolbar
+
+CACHE_MIDDLEWARE_ALIAS = "default"
+CACHE_MIDDLEWARE_SECONDS = 120
+CACHE_MIDDLEWARE_KEY_PREFIX = "geekbrains"
+
+# Be carefull if you have Windows! Install Memcached before run project!
+#     https://www.ubergizmo.com/how-to/install-memcached-windows/
+CACHES = {
+    "default": {
+        "BACKEND": "django.core.cache.backends.memcached.MemcachedCache",
+        "LOCATION": "127.0.0.1:11211",
+    }
+}
+
+LOW_CACHE = True
